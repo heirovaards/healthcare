@@ -4,25 +4,41 @@ include("connect.php");
 
 $error='';
 
-$patient_id = $_GET['patient_id'];
-$sql = $connection->query("select * from patient where patient_id='$patient_id'");
-$call=$sql->fetch_assoc();
+// old code
 
- 
+// if you dont understand the basic, dont shorten your frickin code, nor copy from someone who shorten the code
+// $patient_id = $_GET['patient_id'];
+// $sql = $connection->query("select * from patient where patient_id='$patient_id'");
+// $call=$sql->fetch_assoc();
 
-if (isset($_POST['save'])) {
+// new code
 
-$patient_id = mysqli_real_escape_string($connection,$_POST['patient_id']);
-$patient_name = mysqli_real_escape_string($connection,$_POST['patient_name']);
-$disease_name = mysqli_real_escape_string($connection,$_POST['disease_name']);
-$disease_id = mysqli_real_escape_string($connection,$_POST['disease_id']);
-$patient_birthdate = mysqli_real_escape_string($connection,$_POST['patient_birthdate']);
-$patient_gender = mysqli_real_escape_string($connection,$_POST['patient_gender']);
+// $_GET is variable that you set on the html tag (rever on the delete button is patient.php)
+$patient_id = $_GET['edit'];
+// separate your SQL
+$query = "select * from patient where patient_id='$patient_id'";
+// run the SQL
+$data = mysqli_query($connection, $query);
+// pass the data 1 by one to html
+$call = mysqli_fetch_assoc($data);
 
 
-    $sql ="UPDATE `patient` SET (`patient_id`='$patient_id', `patient_name`='$patient_name', `disease_name`='$disease_name', `disease_id`='$disease_id', `patient_birthdate`='$patient_birthdate', `patient_gender`='$patient_gender') ";
-    $result = mysqli_query($connection,$sql);
-}
+// if (isset($_POST['save']))
+//  {
+//
+//     // $patient_id = mysqli_real_escape_string($connection,$_POST['patient_id']);
+//     $patient_name = mysqli_real_escape_string($connection,$_POST['patient_name']);
+//     $disease_name = mysqli_real_escape_string($connection,$_POST['disease_name']);
+//     $disease_id = mysqli_real_escape_string($connection,$_POST['disease_id']);
+//     $patient_birthdate = mysqli_real_escape_string($connection,$_POST['patient_birthdate']);
+//     $patient_gender = mysqli_real_escape_string($connection,$_POST['patient_gender']);
+//
+//     // $sql ="UPDATE `patient` SET (`patient_id`='$patient_id', `patient_name`='$patient_name', `disease_name`='$disease_name', `disease_id`='$disease_id', `patient_birthdate`='$patient_birthdate', `patient_gender`='$patient_gender') ";
+//
+//
+//     $sql ="UPDATE `patient` SET ( `patient_name`='$patient_name', `disease_name`='$disease_name', `disease_id`='$disease_id', `patient_birthdate`='$patient_birthdate', `patient_gender`='$patient_gender') WHERE patient_name = '$patient_id'";
+//     $result = mysqli_query($connection,$sql);
+// }
 
 
 
@@ -54,26 +70,22 @@ $patient_gender = mysqli_real_escape_string($connection,$_POST['patient_gender']
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="dashboard.php">Healthcare Administration</a> 
+                <a class="navbar-brand" href="dashboard.php">Healthcare Administration</a>
             </div>
-  <div style="color: white;
-padding: 15px 50px 5px 50px;
-float: right;
-font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="btn btn-danger square-btn-adjust">Logout</a> </div>
-        </nav>   
-           <!-- /. NAV TOP  -->
-                <nav class="navbar-default navbar-side" role="navigation">
+            <div style="color: white; padding: 15px 50px 5px 50px;float: right; font-size: 16px;"> Last access : 30 May 2014 &nbsp;
+                <a href="index.php" class="btn btn-danger square-btn-adjust">Logout</a>
+            </div>
+        </nav>
+        <!-- /. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav" id="main-menu">
                 <li class="text-center">
                     <img src="assets/img/find_user.png" class="user-image img-responsive"/>
                     </li>
-                
-            
                     <li>
                         <a href="dashboard.php"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
                     </li>
-                    
                     <li>
                         <a href="profile.php"><i class="fa fa-laptop fa-3x"></i> Profile</a>
                     </li>
@@ -83,22 +95,15 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                     <li>
                         <a href="patient.php"><i class="fa fa-table fa-3x"></i> Patient Record</a>
                     </li>
-                    
-                  
                 </ul>
-               
             </div>
-            
-        </nav>  
+        </nav>
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
                 <div class="row">
-                    
+
                 </div>
-
-
-                 <!-- /. ROW  -->
                  <hr />
                <div class="row">
                 <div class="col-md-12">
@@ -108,91 +113,75 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                              Update Patient Record
                         </div>
                         <div class="panel-body">
-                            
                             <div class="panel-body">
-                            <div class="row">
+                              <div class="row">
                                 <div class="col-md-12">
-                                     
-                                    <form action="updatepatient.php" method="POST">
-                                        <div class="form-group">
-                                            <label>Patient ID</label>
-                                            <input class="form-control" name="patient_id" value="<?php echo $call['patient_id']; ?>" />
-                                        </div>
-                                         <div class="form-group">
-                                            <label>Patient Name</label>
-                                            <input class="form-control" name="patient_name" value="<?php echo $call['patient_name']; ?>" />
-                                        </div>
-                                         <div class="form-group">
-                                            <label>Disease Name</label>
-                                            <select name="disease_name" value="<?php echo $call['disease_name']; ?>">
-                                              <option value="Fever">Fever</option>
-                                              <option value="Heart Attack">Heart Attack</option>
-                                              <option value="Diabetes">Diabetes</option>
-                                              <option value="High Blood Pressure">High Blood Pressure</option>
-                                              <option value=""></option>
-                                              <option value=""></option>
-                                            </select>
-                                        </div>
-
+                                      <form action="updatePatientQuery.php" method="Post">
                                           <div class="form-group">
-                                            <label>Disease Type</label>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="disease_id" id="disease_id"  />Communicable Disease
-                                                </label>
+                                              <label>Patient ID</label>
+                                              <input class="form-control" value="<?php echo $call['patient_id']; ?>" disabled/>
+                                              <input type="hidden" name="patient_id" value="<?php echo $call['patient_id']; ?>" />
+                                          </div>
+                                           <div class="form-group">
+                                              <label>Patient Name</label>
+                                              <input class="form-control" name="patient_name" value="<?php echo $call['patient_name']; ?>" />
+                                          </div>
+                                           <div class="form-group">
+                                              <label>Disease Name</label>
+                                              <select name="disease_name">
+                                                <option value="Fever"<?php if ($call['disease_name'] == 'Fever') echo ' selected="selected"'; ?>>Fever</option>
+                                                <option value="Fever"<?php if ($call['disease_name'] == 'Heart Attack') echo ' selected="selected"'; ?>>Heart Attack</option>
+                                                <option value="Fever"<?php if ($call['disease_name'] == 'Diabetes') echo ' selected="selected"'; ?>>Diabetes</option>
+                                                <option value="Fever"<?php if ($call['disease_name'] == 'High Blood Pressure') echo ' selected="selected"'; ?>>High Blood Pressure</option>
+                                              </select>
+                                          </div>
+                                          <div class="form-group">
+                                              <label>Disease Type</label>
+                                                <div class="radio">
+                                                    <label>
+                                                          <input name="disease_id" type="radio" id="signi" value="Communicable Disease" <?php echo ($call['disease_id']== 'Communicable Disease') ?  "checked" : "" ;  ?>/> Communicable Disease
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                          <input name="disease_id" type="radio" id="signi" value="Non-Communicable Disease" <?php echo ($call['disease_id']== 'Non-Communicable Disease') ?  "checked" : "" ;  ?>/> Non-Communicable Disease
+                                                    </label>
+                                                </div>
                                             </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="disease_id" id="disease_id" />Non-Communicable Disease
-                                                </label>
+                                            <div class="form-group">
+                                                <label>Birth Date</label>
+                                                <input class="form-control" type="date" name="patient_birthdate" value="<?php echo $call['patient_date']; ?>" />
                                             </div>
-                                            
+                                            <div class="form-group">
+                                                <label>Patient Gender</label>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input name="patient_gender" type="radio" id="signi" value="Male" <?php echo ($call['patient_gender']== 'Male') ?  "checked" : "" ;  ?>/> Male
+                                                    </label>
+                                                </div>
+                                                <div class="radio">
+                                                    <label>
+                                                        <input name="patient_gender" type="radio" id="signi" value="Female" <?php echo ($call['patient_gender']== 'Female') ?  "checked" : "" ;  ?>/> Female
+                                                    </label>
+                                                </div>
                                             </div>
-
-                                             <div class="form-group">
-                                            <label>Birth Date</label>
-                                            <input class="form-control" type="date" name="patient_birthdate" value="<?php echo $call['patient_name']; ?>" />
+                                            <div>
+                                                <input type="submit" name="save" value="Save" class="btn btn-primary">
                                             </div>
-
-                                        <div class="form-group">
-                                            <label>Patient Gender</label>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="patient_gender" id="patient_gender" value="m" checked />Male
-                                                </label>
-                                            </div>
-                                            <div class="radio">
-                                                <label>
-                                                    <input type="radio" name="patient_gender" id="patient_gender" value="f"/>Female
-                                                </label>
-                                            </div>  
-                                        </div>
-
-                                        <div>
-
-                                            <input type="submit" name="save" value="Save" class="btn btn-primary">
-
-                                        </div>
-
-
                                         </form>
-
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                            
-                                    
-                                   
-
-</div>
-
-</div>
-</div>
+                      </div>
 
 
-             <!-- /. PAGE INNER  -->
-            </div>
-         <!-- /. PAGE WRAPPER  -->
-        </div>
-     <!-- /. WRAPPER  -->
+
+
     <!-- SCRIPTS -AT THE BOTOM TO REDUCE THE LOAD TIME-->
     <!-- JQUERY SCRIPTS -->
     <script src="assets/js/jquery-1.10.2.js"></script>
@@ -210,7 +199,7 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
     </script>
       <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
-    
-   
+
+
 </body>
 </html>

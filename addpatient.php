@@ -6,17 +6,25 @@ $error='';
 
 if (isset($_POST['save'])) {
 
-$patient_id = mysqli_real_escape_string($connection,$_POST['patient_id']);
-$patient_name = mysqli_real_escape_string($connection,$_POST['patient_name']);
-$disease_name = mysqli_real_escape_string($connection,$_POST['disease_name']);
-$disease_id = mysqli_real_escape_string($connection,$_POST['disease_id']);
-$patient_date = mysqli_real_escape_string($connection,$_POST['patient_date']);
-$patient_gender = mysqli_real_escape_string($connection,$_POST['patient_gender']);
+    // let the ID be automatic
+    // $patient_id = mysqli_real_escape_string($connection,$_POST['patient_id']);
+    $patient_name = mysqli_real_escape_string($connection,$_POST['patient_name']);
+    $disease_name = mysqli_real_escape_string($connection,$_POST['disease_name']);
+    $disease_id = mysqli_real_escape_string($connection,$_POST['disease_id']);
+    $patient_date = mysqli_real_escape_string($connection,$_POST['patient_date']);
+    $patient_gender = mysqli_real_escape_string($connection,$_POST['patient_gender']);
 
+    $sql ="INSERT INTO `patient`( `patient_name`, `disease_name`, `disease_id`, `patient_date`, `patient_gender`) VALUES ( '$patient_name', '$disease_name', '$disease_id', '$patient_date', '$patient_gender')";
 
-    $sql ="INSERT INTO `patient`(`patient_id`, `patient_name`, `disease_name`, `disease_id`, `patient_date`, `patient_gender`) VALUES ('$patient_id', '$patient_name', '$disease_name', '$disease_id', '$patient_date', '$patient_gender')";
-    
     $result = mysqli_query($connection,$sql);
+    if ($result === true)
+    {
+      echo "<script>alert ('Successfully Added')</script>";
+    }
+    else
+    {
+      die(mysqli_error($connection));
+    }
 }
 
 
@@ -51,26 +59,24 @@ $patient_gender = mysqli_real_escape_string($connection,$_POST['patient_gender']
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="dashboard.php">Healthcare Administration</a> 
+                <a class="navbar-brand" href="dashboard.php">Healthcare Administration</a>
             </div>
   <div style="color: white;
 padding: 15px 50px 5px 50px;
 float: right;
 font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="btn btn-danger square-btn-adjust">Logout</a> </div>
-        </nav>   
+        </nav>
            <!-- /. NAV TOP  -->
                 <nav class="navbar-default navbar-side" role="navigation">
-            <div class="sidebar-collapse">
-                <ul class="nav" id="main-menu">
-                <li class="text-center">
-                    <img src="assets/img/find_user.png" class="user-image img-responsive"/>
-                    </li>
-                
-            
-                    <li>
+                  <div class="sidebar-collapse">
+                    <ul class="nav" id="main-menu">
+                      <li class="text-center">
+                        <img src="assets/img/find_user.png" class="user-image img-responsive"/>
+                      </li>
+                      <li>
                         <a href="dashboard.php"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
-                    </li>
-                    
+                      </li>
+
                     <li>
                         <a href="profile.php"><i class="fa fa-laptop fa-3x"></i> Profile</a>
                     </li>
@@ -80,18 +86,18 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                     <li>
                         <a href="patient.php"><i class="fa fa-table fa-3x"></i> Patient Record</a>
                     </li>
-                    
-                  
+
+
                 </ul>
-               
+
             </div>
-            
-        </nav>  
+
+        </nav>
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
                 <div class="row">
-                    
+
                 </div>
 
 
@@ -99,27 +105,27 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                  <hr />
                <div class="row">
                 <div class="col-md-12">
-                    
+
                     <div class="panel panel-default">
                         <div class="panel-heading">
                              Add Patient Record
                         </div>
                         <div class="panel-body">
-                            
+
                             <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
-                                     
+
                                     <form action="addpatient.php" method="POST">
-                                        <div class="form-group">
+                                        <!-- <div class="form-group">
                                             <label>Patient ID</label>
                                             <input class="form-control" name="patient_id" />
-                                        </div>
+                                        </div> -->
                                          <div class="form-group">
                                             <label>Patient Name</label>
                                             <input class="form-control" name="patient_name" />
                                         </div>
-                                        
+
                                          <div class="form-group">
                                             <label>Disease Name</label>
                                             <select name="disease_name">
@@ -161,7 +167,7 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                                                 <label>
                                                     <input type="radio" name="patient_gender" id="patient_gender" value="Female"/>Female
                                                 </label>
-                                            </div>  
+                                            </div>
                                         </div>
 
                                         <div>
@@ -174,17 +180,17 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                                         </form>
 
                         </div>
-                            
-                                    
-                                   
+
+
+
 
 </div>
 
 </div>
 </div>
 
-                                    
-    
+
+
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->
@@ -207,8 +213,8 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
     </script>
       <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
-    
-   
+
+
 </body>
 </html>
 
@@ -216,5 +222,3 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
 
 
 <!-- includekan button change and delete dalam php -->
-
-

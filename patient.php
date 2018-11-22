@@ -2,18 +2,9 @@
 
 include("connect.php");
 
-$error='';
-
-$patient=mysqli_query($connection, 'select * from patient');
-
-$result=mysqli_fetch_array($patient, MYSQLI_ASSOC);
-
-$patient_id=$result['patient_id'];
-$patient_name=$result['patient_name'];
-$disease_name=$result['disease_name'];
-$disease_id=$result['disease_id'];
-$patient_date=$result['patient_date'];
-$patient_gender=$result['patient_gender'];
+// always separate your SQL
+$query = "SELECT * FROM patient";
+$patient=mysqli_query($connection, $query);
 
 ?>
 <!DOCTYPE html>
@@ -41,13 +32,13 @@ $patient_gender=$result['patient_gender'];
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="dashboard.php">Healthcare Administration</a> 
+                <a class="navbar-brand" href="dashboard.php">Healthcare Administration</a>
             </div>
   <div style="color: white;
 padding: 15px 50px 5px 50px;
 float: right;
 font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="btn btn-danger square-btn-adjust">Logout</a> </div>
-        </nav>   
+        </nav>
            <!-- /. NAV TOP  -->
                 <nav class="navbar-default navbar-side" role="navigation">
             <div class="sidebar-collapse">
@@ -55,12 +46,12 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                 <li class="text-center">
                     <img src="assets/img/find_user.png" class="user-image img-responsive"/>
                     </li>
-                
-            
+
+
                     <li>
                         <a href="dashboard.php"><i class="fa fa-dashboard fa-3x"></i> Dashboard</a>
                     </li>
-                    
+
                     <li>
                         <a href="profile.php"><i class="fa fa-laptop fa-3x"></i> Profile</a>
                     </li>
@@ -70,20 +61,20 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                    <li>
                         <a href="patient.php"><i class="fa fa-table fa-3x"></i> Patient Record</a>
                     </li>
-                    
 
-                    
-                  
+
+
+
                 </ul>
-               
+
             </div>
-            
-        </nav>  
+
+        </nav>
         <!-- /. NAV SIDE  -->
         <div id="page-wrapper" >
             <div id="page-inner">
                 <div class="row">
-                    
+
                 </div>
 
 
@@ -114,36 +105,28 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
                                         </tr>
                                     </thead>
                                     <tbody>
-                                       
+                                      <!-- Put foreach for every multipe data, ruun fetch assoc upon show -->
+                                      <?php while ($result = mysqli_fetch_assoc($patient)){?>
                                         <tr>
-
-
-                                            <td><?php echo $patient_id ?></td>
-                                            <td><?php echo $patient_name ?></td>
-                                            <td><?php echo $disease_name ?></td>
-                                            <td><?php echo $disease_id ?></td>
-                                            <td><?php echo $patient_date ?></td>
-                                            <td><?php echo $patient_gender ?></td>
-
+                                            <td><?php echo $result["patient_id"];  ?></td>
+                                            <td><?php echo $result["patient_name"]; ?></td>
+                                            <td><?php echo $result["disease_name"]; ?></td>
+                                            <td><?php echo $result["disease_id"]; ?></td>
+                                            <td><?php echo $result["patient_date"]; ?></td>
+                                            <td><?php echo $result["patient_gender"]; ?></td>
                                             <td>
-                                                
-                                                <a href="updatepatient.php" class="btn btn-info" style="margin-bottom: 5px">Update</a>
-                                                <a onclick="return confirm('Are You Sure To Delete This Record?')" href="deletepatient.php" class="btn btn-danger" name="delete" >Delete</a>
-
+                                                <!-- <a href="updatepatient.php" class="btn btn-info" style="margin-bottom: 5px">Update</a> -->
+                                                <a href="updatepatient.php?edit=<?php echo $result["patient_id"];?>" class="btn btn-info" style="margin-bottom: 5px">Update</a>
+                                                <!-- Add ID to button -->
+                                                <!-- <a onclick="return confirm('Are You Sure To Delete This Record?')" href="deletepatient.php?"" class="btn btn-danger" name="delete" >Delete</a> -->
+                                                <a onclick="return confirm('Are You Sure To Delete This Record?')" href="deletepatient.php?delete=<?php echo $result["patient_id"];?>?" class="btn btn-danger" name="delete" >Delete</a>
                                             </td>
-
-
-
-
-                                        </tr>
-
-                                     
+                                          </tr>
+                                        <?php } ?>
                                     </tbody>
-                                   
+                                  </div>
 
-</div>
-                                    
-    
+
              <!-- /. PAGE INNER  -->
             </div>
          <!-- /. PAGE WRAPPER  -->
@@ -166,8 +149,8 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
     </script>
       <!-- CUSTOM SCRIPTS -->
     <script src="assets/js/custom.js"></script>
-    
-   
+
+
 </body>
 </html>
 
@@ -175,5 +158,3 @@ font-size: 16px;"> Last access : 30 May 2014 &nbsp; <a href="index.php" class="b
 
 
 <!-- includekan button change and delete dalam php -->
-
-
