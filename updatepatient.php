@@ -130,9 +130,9 @@ $call = mysqli_fetch_assoc($data);
                                               <label>Disease Name</label>
                                               <select name="disease_name">
                                                 <option value="Fever"<?php if ($call['disease_name'] == 'Fever') echo ' selected="selected"'; ?>>Fever</option>
-                                                <option value="Fever"<?php if ($call['disease_name'] == 'Heart Attack') echo ' selected="selected"'; ?>>Heart Attack</option>
-                                                <option value="Fever"<?php if ($call['disease_name'] == 'Diabetes') echo ' selected="selected"'; ?>>Diabetes</option>
-                                                <option value="Fever"<?php if ($call['disease_name'] == 'High Blood Pressure') echo ' selected="selected"'; ?>>High Blood Pressure</option>
+                                                <option value="Heart Attack"<?php if ($call['disease_name'] == 'Heart Attack') echo ' selected="selected"'; ?>>Heart Attack</option>
+                                                <option value="Diabetes"<?php if ($call['disease_name'] == 'Diabetes') echo ' selected="selected"'; ?>>Diabetes</option>
+                                                <option value="High Blood Pressure"<?php if ($call['disease_name'] == 'High Blood Pressure') echo ' selected="selected"'; ?>>High Blood Pressure</option>
                                               </select>
                                           </div>
                                           <div class="form-group">

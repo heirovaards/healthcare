@@ -12,6 +12,7 @@ if (isset($_POST['save'])) {
     $patient_birthdate = mysqli_real_escape_string($connection,$_POST['patient_birthdate']);
     $patient_gender = mysqli_real_escape_string($connection,$_POST['patient_gender']);
 
+
 		$sql ="UPDATE patient
 		 			SET patient_name='$patient_name',
 			 				 disease_name='$disease_name',
